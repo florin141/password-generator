@@ -1,0 +1,19 @@
+language:
+  java
+jdk:
+  oraclejdk8
+cache:
+  directories:
+    - $HOME/.m2
+script:
+  mvn package
+before_deploy:
+  - export RELEASE_JAR_FILE=$(ls target/*.jar)
+deploy:
+  provider: releases
+  api_key: '$API_KEY'
+  file_glob: true
+  file: "${RELEASE_JAR_FILE}"
+  skip_cleanup: true
+  on:
+    tags: true
